@@ -62,6 +62,7 @@ namespace Productos.Server.Controllers
             _context.Productos.Remove(productoBorrado);
             await _context.SaveChangesAsync();
             return Ok();
+            //prueba de cambio cuando doy push 
         }
     }
 }
