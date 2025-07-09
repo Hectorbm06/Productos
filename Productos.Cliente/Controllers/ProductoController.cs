@@ -31,8 +31,25 @@ namespace Productos.Cliente.Controllers
             return View();
         }
         [HttpPost]
-
-        public async Task<IActionResult> Create(Producto producto)
+        public async Task<IActionResult> Create (Producto producto)
+        {
+            if(ModelState.IsValid)
+            {
+                var json = JsonConvert.SerializeObject(producto);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync("/api/Productos/crear", content);
+                if(response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Error al crear el producto");
+                }
+            }
+            return View(producto);
+        }
+        /*public async Task<IActionResult> Create(Producto producto)
         {
             if(ModelState.IsValid)
             {
@@ -46,6 +63,6 @@ namespace Productos.Cliente.Controllers
                 ModelState.AddModelError("", "Error al crear el producto");
             }
             return View(producto);
-        }
+        }*/
     }
 }
